@@ -5,7 +5,7 @@ using Dapper;
 
 namespace Centric.TeamBuilding.DataAccess.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         public User GetUser(string email)
         {

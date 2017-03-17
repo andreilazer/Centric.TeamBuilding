@@ -7,7 +7,7 @@ using Dapper;
 
 namespace Centric.TeamBuilding.DataAccess.Repositories
 {
-    public class DayRepository
+    public class DayRepository : IDayRepository
     {
         public IEnumerable<Day> GetDays()
         {

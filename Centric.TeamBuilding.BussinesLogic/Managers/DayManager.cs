@@ -2,7 +2,6 @@
 using Centric.TeamBuilding.DataAccess.Repositories;
 using Centric.TeamBuilding.Entities;
 using System.ComponentModel.DataAnnotations;
-using System;
 using System.Linq;
 using Centric.TeamBuilding.BussinesLogic.Utils;
 
@@ -10,11 +9,11 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class DayManager
     {
-        private readonly DayRepository _dayRepository;
+        private readonly IDayRepository _dayRepository;
 
-        public DayManager()
+        public DayManager(IDayRepository dayRepository)
         {
-            _dayRepository = new DayRepository();
+            _dayRepository = dayRepository;
         }
 
         public void Create(Day day)
@@ -37,8 +36,6 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
                 throw new ValidationException(dayValidationResult.Message);
             }
         }
-
-        
 
         public IEnumerable<Day> GetDays()
         {

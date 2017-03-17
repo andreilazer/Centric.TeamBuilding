@@ -7,7 +7,7 @@ using Dapper;
 
 namespace Centric.TeamBuilding.DataAccess.Repositories
 {
-    public class ActivityRepository
+    public class ActivityRepository : IActivityRepository
     {
         public void CreateMainActivity(MainActivity activity)
         {

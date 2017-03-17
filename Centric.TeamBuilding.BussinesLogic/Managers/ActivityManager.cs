@@ -7,11 +7,11 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class ActivityManager
     {
-        private ActivityRepository _activityRepository;
+        private IActivityRepository _activityRepository;
 
-        public ActivityManager()
+        public ActivityManager(IActivityRepository activityRepository)
         {
-            _activityRepository = new ActivityRepository();
+            _activityRepository = activityRepository;
         }
 
         public void CreateMainActivity(MainActivity activity)

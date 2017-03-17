@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NSubstitute, Version=2.0.2.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.2.0.2\lib\net45\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
@@ -51,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DayManagerTests.cs" />
     <Compile Include="UserManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,10 +63,17 @@
       <Project>{431AF362-C58B-4056-82B0-37757EA601B9}</Project>
       <Name>Centric.TeamBuilding.BussinesLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Centric.TeamBuilding.DataAccess\Centric.TeamBuilding.DataAccess.csproj">
+      <Project>{B1DC51F9-4399-428D-A4FF-801E96421651}</Project>
+      <Name>Centric.TeamBuilding.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Centric.TeamBuilding.Entities\Centric.TeamBuilding.Entities.csproj">
       <Project>{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}</Project>
       <Name>Centric.TeamBuilding.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
