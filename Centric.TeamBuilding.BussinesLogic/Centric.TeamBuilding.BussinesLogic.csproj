@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\ActivityManager.cs" />
+    <Compile Include="Domain\DayManager.cs" />
+    <Compile Include="Domain\UserManager.cs" />
     <Compile Include="Entities\ActivityBase.cs" />
     <Compile Include="Entities\Day.cs" />
     <Compile Include="Entities\EmployeeActivity.cs" />
