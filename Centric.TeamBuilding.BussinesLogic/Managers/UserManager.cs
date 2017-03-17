@@ -9,11 +9,11 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class UserManager
     {
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserManager()
+        public UserManager(IUserRepository userRepository)
         {
-            _userRepository = new UserRepository();
+            _userRepository = userRepository;
         }
 
         public User Login(string email, string password)
