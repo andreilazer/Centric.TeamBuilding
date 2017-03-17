@@ -10,10 +10,12 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
     public class ActivityManager
     {
         private IActivityRepository _activityRepository;
+        private IUserRepository _userRepository;
 
-        public ActivityManager(IActivityRepository activityRepository)
+        public ActivityManager(IActivityRepository activityRepository, IUserRepository userRepository)
         {
             _activityRepository = activityRepository;
+            _userRepository = userRepository;
         }
 
         public void CreateMainActivity(MainActivity activity)
@@ -21,13 +23,13 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
             var activityValidationResult = activity.Validate();
 
             if (activityValidationResult.IsValid) {
-                var creatorRole = new UserRepository().GetUser(activity.CreatorId).Role;
+                var creatorRole = _userRepository.GetUser(activity.CreatorId).Role;
 
                 if(creatorRole != UserRoles.Staff)
                 {
                     throw new ValidationException("Only Staff users can create main activities!");
                 }
-                var allMainActivities = new ActivityRepository().GetMainActivities(activity.DayId);
+                var allMainActivities = _activityRepository.GetMainActivities(activity.DayId);
 
                 var isValidActivityInterval = IsValidActivityInterval(allMainActivities, activity);
                 if (!isValidActivityInterval)
@@ -41,22 +43,11 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 
         private bool IsValidActivityInterval(IEnumerable<ActivityBase> allActivities, ActivityBase newActivity)
         {
-            if (!allActivities.Any())
-            {
-                return true;
-            }
-            allActivities = allActivities.OrderBy(a => a.StartTime);
-            var nextActivityIndex = allActivities.TakeWhile(a => a.StartTime < newActivity.StartTime).Count();
-            if(nextActivityIndex == null || nextActivityIndex == 0)
-            {
-                return true;
-            }
-            var previousActivityEndTime = allActivities.ElementAt(nextActivityIndex - 1).EndTime;
-            if(previousActivityEndTime > newActivity.StartTime)
+            if (allActivities.Any(a => a.StartTime <= newActivity.StartTime && a.EndTime >= newActivity.StartTime)
+                || allActivities.Any(a => a.StartTime <= newActivity.EndTime && a.EndTime >= newActivity.EndTime))
             {
                 return false;
             }
-
             return true;
         }
 
