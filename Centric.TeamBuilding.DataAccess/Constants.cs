@@ -1,10 +1,10 @@
-﻿using System.Data.Common;
+﻿using System.Configuration;
+using System.Data.Common;
 
 namespace Centric.TeamBuilding.DataAccess
 {
     public static class Constants
     {
-        public const string ConnectionString =
-            "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\CentricTeamBuilding.mdf;Integrated Security=True;Connect Timeout=30";
+        public static string ConnectionString => ConfigurationManager.ConnectionStrings["CentricTeamBuilding"].ConnectionString;
     }
 }

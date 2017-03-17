@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
 using Centric.TeamBuilding.BussinesLogic.Utils;
+using Centric.TeamBuilding.BussinesLogic.Validators;
 using Centric.TeamBuilding.DataAccess.Repositories;
 using Centric.TeamBuilding.Entities;
 
@@ -32,16 +33,11 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 
         public void Register(User user)
         {
-            var userValidationResult = user.Validate();
+            var validator = new UserValidator(_userRepository);
+            var userValidationResult = validator.Validate(user);
 
             if (userValidationResult.IsValid)
             {
-                var existingUser = _userRepository.GetUser(user.Email);
-                if (existingUser != null)
-                {
-                    throw new ValidationException("Email already registered");
-                }
-
                 user.Password = user.Password.HashStringMd5();
                 _userRepository.InsertUser(user);
             }

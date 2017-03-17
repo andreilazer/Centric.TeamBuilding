@@ -20,12 +20,13 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
         {
             var activityValidationResult = activity.Validate();
 
-            if (activityValidationResult.IsValid) {
+            if (activityValidationResult.IsValid)
+            {
                 var creatorRole = new UserRepository().GetUser(activity.CreatorId).Role;
 
-                if(creatorRole != UserRoles.Staff)
+                if (creatorRole != UserRoles.Staff)
                 {
-                    throw new ValidationException("Only Staff users can create main activities!");
+                    throw new UnauthorizedAccessException("Only Staff users can create main activities!");
                 }
                 var allMainActivities = new ActivityRepository().GetMainActivities(activity.DayId);
 
@@ -34,8 +35,12 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
                 {
                     throw new ValidationException("Activity interval collides another existing activity!");
                 }
-                
+
                 _activityRepository.CreateMainActivity(activity);
+            }
+            else
+            {
+                throw new ValidationException(activityValidationResult.Message);
             }
         }
 

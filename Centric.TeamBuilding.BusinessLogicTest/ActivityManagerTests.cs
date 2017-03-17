@@ -5,6 +5,7 @@ using Centric.TeamBuilding.BussinesLogic.Managers;
 using NSubstitute;
 using Centric.TeamBuilding.DataAccess.Repositories;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Centric.TeamBuilding.BusinessLogicTest
 {
@@ -13,6 +14,26 @@ namespace Centric.TeamBuilding.BusinessLogicTest
     {
         private Guid mainActivityCreatorId = Guid.NewGuid();
         private Guid mainActivityDayId = Guid.NewGuid();
+
+        [TestMethod]
+        public void CreateMainActivity_ShouldThrowValidationException_WhenStartTimeIsAfterEndTime()
+        {
+            try
+            {
+                var activityRepositoryStub = Substitute.For<IActivityRepository>();
+                var userRepositoryStub = Substitute.For<IUserRepository>();
+                var activityManager = new ActivityManager(activityRepositoryStub);
+                var newActivity = GetDummyNewMainActivity();
+                newActivity.StartTime = newActivity.EndTime.AddHours(1);
+
+                activityManager.CreateMainActivity(newActivity);
+                Assert.IsTrue(false, "Should throw validation error");
+            }
+            catch (ValidationException e)
+            {
+                Assert.AreEqual("End time must be after start time",e.Message);
+            }
+        }
 
         [TestMethod]
         public void CreateMainActivity_ShouldThrowValidationException_WhenIntervalCollidesWithExistingActivities()
@@ -32,7 +53,7 @@ namespace Centric.TeamBuilding.BusinessLogicTest
             activityRepositoryStub.GetMainActivities(Arg.Any<Guid>()).Returns(GetDummyMainActivities());
         }
 
-        private object GetDummyNewMainActivity()
+        private MainActivity GetDummyNewMainActivity()
         {
             return new MainActivity()
             {

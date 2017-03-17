@@ -28,6 +28,11 @@ namespace Centric.TeamBuilding.Entities
                 result.Message = "Fill all required fields";
                 return result;
             }
+            if (StartTime > EndTime)
+            {
+                result.Message = "End time must be after start time";
+                return result;
+            }
             result.IsValid = true;
             return result;
         }
