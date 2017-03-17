@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -54,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Centric.TeamBuilding.BussinesLogic\Centric.TeamBuilding.BussinesLogic.csproj">
+      <Project>{431AF362-C58B-4056-82B0-37757EA601B9}</Project>
+      <Name>Centric.TeamBuilding.BussinesLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Centric.TeamBuilding.Entities\Centric.TeamBuilding.Entities.csproj">
       <Project>{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}</Project>
       <Name>Centric.TeamBuilding.Entities</Name>
