@@ -37,23 +37,54 @@ namespace Centric.TeamBuilding.BusinessLogicTest
 
         [TestMethod]
         public void CreateMainActivity_ShouldThrowValidationException_WhenIntervalCollidesWithExistingActivities()
+        [ExpectedException(typeof(ValidationException))]
+        public void CreateMainActivity_ShouldThrowValidationException_WhenNewActivityEndTimeAfterNextActivityStartTime()
         {
 
             var activityRepositoryStub = Substitute.For<IActivityRepository>();
             var userRepositoryStub = Substitute.For<IUserRepository>();
-            var activityManager = new ActivityManager(activityRepositoryStub);
+            var activityManager = new ActivityManager(activityRepositoryStub, userRepositoryStub);
 
-            userRepositoryStub.GetUser(Arg.Any<Guid>()).Returns(new User
-            {
-                Role = UserRoles.Staff
-            });
+            userRepositoryStub.GetUser(Arg.Any<Guid>()).Returns(GetDummyUser());
 
-            var newActivity = GetDummyNewMainActivity();
+            var start = new DateTime(2017, 01, 01, 13, 30, 00);
+            var end = new DateTime(2017, 01, 01, 14, 30, 00);
+            var newActivity = GetDummyNewMainActivity(start, end);
 
             activityRepositoryStub.GetMainActivities(Arg.Any<Guid>()).Returns(GetDummyMainActivities());
+
+            activityManager.CreateMainActivity(newActivity);
         }
 
-        private MainActivity GetDummyNewMainActivity()
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void CreateMainActivity_ShouldThrowValidationException_WhenNewActivityStartTimeBeforePreviousActivityEndTime()
+        {
+
+            var activityRepositoryStub = Substitute.For<IActivityRepository>();
+            var userRepositoryStub = Substitute.For<IUserRepository>();
+            var activityManager = new ActivityManager(activityRepositoryStub, userRepositoryStub);
+
+            userRepositoryStub.GetUser(Arg.Any<Guid>()).Returns(GetDummyUser());
+
+            var start = new DateTime(2017, 01, 01, 12, 30, 00);
+            var end = new DateTime(2017, 01, 01, 13, 30, 00);
+            var newActivity = GetDummyNewMainActivity(start, end);
+
+            activityRepositoryStub.GetMainActivities(Arg.Any<Guid>()).Returns(GetDummyMainActivities());
+
+            activityManager.CreateMainActivity(newActivity);
+        }
+
+        private User GetDummyUser()
+        {
+            return new User
+            {
+                Role = UserRoles.Staff
+            };
+        }
+
+        private MainActivity GetDummyNewMainActivity(DateTime startTime, DateTime endTime)
         {
             return new MainActivity()
             {
@@ -63,8 +94,8 @@ namespace Centric.TeamBuilding.BusinessLogicTest
                 IsFreeActivity = false,
                 DayId = mainActivityDayId,
                 CreatorId = mainActivityCreatorId,
-                StartTime = new DateTime(2017, 01, 01, 13, 00, 00),
-                EndTime = new DateTime(2017, 01, 01, 13, 30, 00),
+                StartTime = startTime,
+                EndTime = endTime,
             };
         }
 
@@ -74,6 +105,7 @@ namespace Centric.TeamBuilding.BusinessLogicTest
             {
                 new MainActivity
                 {
+                    Id = Guid.NewGuid(),
                     Location = "Test location",
                     Description = "Test description",
                     Title = "Test title",
@@ -85,6 +117,7 @@ namespace Centric.TeamBuilding.BusinessLogicTest
                 },
                 new MainActivity
                 {
+                    Id = Guid.NewGuid(),
                     Location = "Test location 1",
                     Description = "Test description 1",
                     Title = "Test title 1",
@@ -93,17 +126,6 @@ namespace Centric.TeamBuilding.BusinessLogicTest
                     IsFreeActivity = false,
                     StartTime = new DateTime(2017, 01, 01, 14, 00, 00),
                     EndTime = new DateTime(2017, 01, 01, 16, 30, 00)
-                },
-                new MainActivity
-                {
-                    Location = "Test location 2",
-                    Description = "Test description 2",
-                    Title = "Test title 2",
-                    CreatorId = mainActivityCreatorId,
-                    DayId = Guid.NewGuid(),
-                    IsFreeActivity = false,
-                    StartTime = new DateTime(2017, 01, 01, 17, 00, 00),
-                    EndTime = new DateTime(2017, 01, 01, 18, 30, 00)
                 }
             };
         }
