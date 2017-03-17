@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Centric.TeamBuilding.BussinesLogic.Entities;
 
-namespace Centric.TeamBuilding.BussinesLogic.Domain
+namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class DayManager
     {
