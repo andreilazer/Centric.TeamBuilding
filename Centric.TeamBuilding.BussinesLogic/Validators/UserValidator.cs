@@ -20,9 +20,8 @@ namespace Centric.TeamBuilding.BussinesLogic.Validators
         public ValidationResult Validate(User user)
         {
             var result = user.Validate();
-            var userValidationResult = user.Validate();
 
-            if (userValidationResult.IsValid)
+            if (result.IsValid)
             {
                 var existingUser = _userRepository.GetUser(user.Email);
                 if (existingUser != null)
