@@ -41,6 +41,7 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
                 {
                     throw new ValidationException("Email already registered");
                 }
+
                 user.Password = user.Password.HashStringMd5();
                 _userRepository.InsertUser(user);
             }
