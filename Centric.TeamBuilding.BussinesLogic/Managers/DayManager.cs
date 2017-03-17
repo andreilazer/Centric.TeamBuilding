@@ -4,31 +4,31 @@ using Centric.TeamBuilding.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Centric.TeamBuilding.BussinesLogic.Utils;
+using Centric.TeamBuilding.BussinesLogic.Validators;
+using System;
 
 namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class DayManager
     {
         private readonly IDayRepository _dayRepository;
+        private readonly IUserRepository _userRepository;
 
-        public DayManager(IDayRepository dayRepository)
+        public DayManager(IDayRepository dayRepository, IUserRepository userRepository)
         {
             _dayRepository = dayRepository;
+            _userRepository = userRepository;
         }
 
-        public void Create(Day day)
+        public void Create(Day day, Guid creatorId)
         {
             day.Date = DateExtensions.RemoveTimeInformation(day.Date);
 
-            var dayValidationResult = day.Validate();
+            var dayValidator = new DayValidator(_dayRepository, _userRepository);
+            var dayValidationResult = dayValidator.Validate(day, creatorId);
+
             if (dayValidationResult.IsValid)
             {
-                var isDuplicateDay = _dayRepository.GetDays().Any(d=>d.Date == day.Date);
-                if (isDuplicateDay)
-                {
-                    throw new ValidationException("Day already registered!");
-                }
-
                 _dayRepository.CreateDay(day);
             }
             else
