@@ -1,4 +1,4 @@
-﻿namespace Centric.TeamBuilding.BussinesLogic.Entities
+﻿namespace Centric.TeamBuilding.Entities
 {
     public enum Gender
     {

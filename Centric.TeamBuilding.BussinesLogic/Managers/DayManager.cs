@@ -1,18 +1,26 @@
 ﻿using System.Collections.Generic;
-using Centric.TeamBuilding.BussinesLogic.Entities;
+using Centric.TeamBuilding.DataAccess.Repositories;
+using Centric.TeamBuilding.Entities;
 
 namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class DayManager
     {
-        public Day Create(Day day)
+        private readonly DayRepository _dayRepository;
+
+        public DayManager()
         {
-            return new Day();
+            _dayRepository = new DayRepository();
+        }
+        public void Create(Day day)
+        {
+
+            _dayRepository.CreateDay(day);
         }
 
         public IEnumerable<Day> GetDays()
         {
-            return new List<Day>();
+            return _dayRepository.GetDays();
         }
     }
 }

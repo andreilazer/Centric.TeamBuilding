@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{431AF362-C58B-4056-82B0-37757EA601B9}</ProjectGuid>
+    <ProjectGuid>{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Centric.TeamBuilding.BussinesLogic</RootNamespace>
-    <AssemblyName>Centric.TeamBuilding.BussinesLogic</AssemblyName>
+    <RootNamespace>Centric.TeamBuilding.Entities</RootNamespace>
+    <AssemblyName>Centric.TeamBuilding.Entities</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,20 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Managers\ActivityManager.cs" />
-    <Compile Include="Managers\DayManager.cs" />
-    <Compile Include="Managers\UserManager.cs" />
+    <Compile Include="ActivityBase.cs" />
+    <Compile Include="Day.cs" />
+    <Compile Include="EmployeeActivity.cs" />
+    <Compile Include="GenderEnum.cs" />
+    <Compile Include="MainActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Centric.TeamBuilding.DataAccess\Centric.TeamBuilding.DataAccess.csproj">
-      <Project>{B1DC51F9-4399-428D-A4FF-801E96421651}</Project>
-      <Name>Centric.TeamBuilding.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Centric.TeamBuilding.Entities\Centric.TeamBuilding.Entities.csproj">
-      <Project>{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}</Project>
-      <Name>Centric.TeamBuilding.Entities</Name>
-    </ProjectReference>
+    <Compile Include="User.cs" />
+    <Compile Include="UserRolesEnum.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

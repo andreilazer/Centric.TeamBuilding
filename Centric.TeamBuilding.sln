@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centric.TeamBuilding.BussinesLogic", "Centric.TeamBuilding.BussinesLogic\Centric.TeamBuilding.BussinesLogic.csproj", "{431AF362-C58B-4056-82B0-37757EA601B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centric.TeamBuilding.DataAccess", "Centric.TeamBuilding.DataAccess\Centric.TeamBuilding.DataAccess.csproj", "{B1DC51F9-4399-428D-A4FF-801E96421651}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centric.TeamBuilding.Entities", "Centric.TeamBuilding.Entities\Centric.TeamBuilding.Entities.csproj", "{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{431AF362-C58B-4056-82B0-37757EA601B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{431AF362-C58B-4056-82B0-37757EA601B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{431AF362-C58B-4056-82B0-37757EA601B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1DC51F9-4399-428D-A4FF-801E96421651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1DC51F9-4399-428D-A4FF-801E96421651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1DC51F9-4399-428D-A4FF-801E96421651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1DC51F9-4399-428D-A4FF-801E96421651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA23FB1D-66DA-4993-9C00-3F884BECEF3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,39 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using Centric.TeamBuilding.BussinesLogic.Entities;
+using Centric.TeamBuilding.DataAccess.Repositories;
+using Centric.TeamBuilding.Entities;
 
 namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class ActivityManager
     {
-        public MainActivity CreateMainActivity(MainActivity activity)
+        private ActivityRepository _activityRepository;
+
+        public ActivityManager()
         {
-            return new MainActivity();
+            _activityRepository = new ActivityRepository();
         }
 
-        public EmployeeActivity CreateEmployeeActivity(EmployeeActivity activity)
+        public void CreateMainActivity(MainActivity activity)
         {
-            return new EmployeeActivity();
+            _activityRepository.CreateMainActivity(activity);
+        }
+
+        public void CreateEmployeeActivity(EmployeeActivity activity)
+        {
+            _activityRepository.CreateEmployeeActivity(activity);
         }
 
         public IEnumerable<MainActivity> GetDayActivities(Guid dayId)
         {
-            return new List<MainActivity>();
+            return _activityRepository.GetDayActivities(dayId);
         }
 
         public IEnumerable<EmployeeActivity> GetEmployeeActivities(Guid mainActivityId)
         {
-            return new List<EmployeeActivity>();
+            return _activityRepository.GetEmployeeActivities(mainActivityId);
         }
 
         public void JoinActivity(Guid userId, Guid activityId)
         {
-            
+            _activityRepository.AddUserToActivity(userId, activityId);
         }
 
         public IEnumerable<User> GetParticipants(Guid activityId)
         {
-            return new List<User>();
+            return _activityRepository.GetActivityParticipants(activityId);
         }
     }
 }

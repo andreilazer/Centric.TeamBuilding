@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Centric.TeamBuilding.BussinesLogic.Entities
+namespace Centric.TeamBuilding.Entities
 {
     public abstract class ActivityBase
     {

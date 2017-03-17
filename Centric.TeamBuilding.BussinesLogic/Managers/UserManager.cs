@@ -1,17 +1,26 @@
-﻿using Centric.TeamBuilding.BussinesLogic.Entities;
+﻿using System;
+using Centric.TeamBuilding.DataAccess.Repositories;
+using Centric.TeamBuilding.Entities;
 
 namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class UserManager
     {
-        public User Login(string email, string password)
+        private readonly UserRepository _userRepository;
+
+        public UserManager()
         {
-            return new User();
+            _userRepository = new UserRepository();
         }
 
-        public User Register(User user)
+        public User Login(string email, string password)
         {
-            return new User();
+            return _userRepository.GetUser(email);
+        }
+
+        public void Register(User user)
+        {
+            _userRepository.InsertUser(user);
         }
     }
 }
