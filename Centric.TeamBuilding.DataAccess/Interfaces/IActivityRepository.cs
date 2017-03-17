@@ -12,5 +12,6 @@ namespace Centric.TeamBuilding.DataAccess.Repositories
         IEnumerable<User> GetActivityParticipants(Guid activityId);
         IEnumerable<MainActivity> GetMainActivities(Guid dayId);
         IEnumerable<EmployeeActivity> GetEmployeeActivities(Guid mainActivityId);
+        MainActivity GetActivity(Guid activityId);
     }
 }

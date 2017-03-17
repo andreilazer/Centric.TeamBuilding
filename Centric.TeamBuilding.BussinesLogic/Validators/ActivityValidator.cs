@@ -25,8 +25,7 @@ namespace Centric.TeamBuilding.BussinesLogic.Validators
             {
                 var allMainActivities = _activityRepository.GetMainActivities(activity.DayId);
 
-                var isValidActivityInterval = IsValidActivityInterval(allMainActivities, activity);
-                if (!isValidActivityInterval)
+                if (!IsValidActivityInterval(allMainActivities, activity))
                 {
                     validationResult.IsValid = false;
                     validationResult.Message = "Activity interval collides another existing activity!";
@@ -34,6 +33,29 @@ namespace Centric.TeamBuilding.BussinesLogic.Validators
             }
             return validationResult;
         }
+
+        public ValidationResult ValidateEmployeeActivity(EmployeeActivity activity)
+        {
+            var validationResult = activity.Validate();
+            if (validationResult.IsValid)
+            {
+                var parentActivity = _activityRepository.GetActivity(activity.ParentId);
+                if (parentActivity == null)
+                {
+                    validationResult.IsValid = false;
+                    validationResult.Message = "Invalid parent activity.";
+                }
+                var allActivities = _activityRepository.GetEmployeeActivities(activity.ParentId);
+                if (!IsValidActivityInterval(allActivities, activity))
+                {
+                    validationResult.IsValid = false;
+                    validationResult.Message = "Activity interval collides another existing activity!";
+                }
+
+            }
+            return validationResult;
+        }
+
         private bool IsValidActivityInterval(IEnumerable<ActivityBase> allActivities, ActivityBase newActivity)
         {
             if (allActivities.Any(a => a.StartTime <= newActivity.StartTime && a.EndTime >= newActivity.StartTime)

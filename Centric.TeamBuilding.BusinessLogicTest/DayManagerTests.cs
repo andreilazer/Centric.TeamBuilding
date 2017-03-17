@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using Centric.TeamBuilding.DataAccess.Repositories;
 using NSubstitute;
 using System.Collections.Generic;
-using Centric.TeamBuilding.BussinesLogic.Utils;
 
 namespace Centric.TeamBuilding.BusinessLogicTest
 {

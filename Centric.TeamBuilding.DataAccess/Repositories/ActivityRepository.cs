@@ -80,5 +80,16 @@ namespace Centric.TeamBuilding.DataAccess.Repositories
                 return connection.Query<User>(sql, new { ActivityId = activityId });
             }
         }
+
+        public MainActivity GetActivity(Guid activityId)
+        {
+            using (SqlConnection connection = new SqlConnection(Constants.ConnectionString))
+            {
+                var sql = @"SELECT * FROM [dbo].[Activity] WHERE Id = @MainActivityId";
+
+                connection.Open();
+                return connection.Query<MainActivity>(sql, new {MainActivityId = activityId}).SingleOrDefault();
+            }
+        }
     }
 }

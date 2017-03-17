@@ -20,7 +20,7 @@ namespace Centric.TeamBuilding.Entities
 
         public Guid DayId { get; set; }
 
-        public ValidationResult Validate()
+        public virtual ValidationResult Validate()
         {
             var result = new ValidationResult() { IsValid = false };
             if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(Location))

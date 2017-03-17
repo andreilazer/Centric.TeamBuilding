@@ -40,7 +40,16 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 
         public void CreateEmployeeActivity(EmployeeActivity activity)
         {
-            _activityRepository.CreateEmployeeActivity(activity);
+            var activityValidator = new ActivityValidator(_activityRepository);
+            var validationResult = activityValidator.ValidateEmployeeActivity(activity);
+            if (validationResult.IsValid)
+            {
+                _activityRepository.CreateEmployeeActivity(activity);
+            }
+            else
+            {
+                throw new ValidationException(validationResult.Message);
+            }
         }
 
         public IEnumerable<MainActivity> GetDayActivities(Guid dayId)
