@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Centric.TeamBuilding.DataAccess.Repositories;
 using Centric.TeamBuilding.Entities;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
@@ -16,7 +18,46 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 
         public void CreateMainActivity(MainActivity activity)
         {
-            _activityRepository.CreateMainActivity(activity);
+            var activityValidationResult = activity.Validate();
+
+            if (activityValidationResult.IsValid) {
+                var creatorRole = new UserRepository().GetUser(activity.CreatorId).Role;
+
+                if(creatorRole != UserRoles.Staff)
+                {
+                    throw new ValidationException("Only Staff users can create main activities!");
+                }
+                var allMainActivities = new ActivityRepository().GetMainActivities(activity.DayId);
+
+                var isValidActivityInterval = IsValidActivityInterval(allMainActivities, activity);
+                if (!isValidActivityInterval)
+                {
+                    throw new ValidationException("Activity interval collides another existing activity!");
+                }
+                
+                _activityRepository.CreateMainActivity(activity);
+            }
+        }
+
+        private bool IsValidActivityInterval(IEnumerable<ActivityBase> allActivities, ActivityBase newActivity)
+        {
+            if (!allActivities.Any())
+            {
+                return true;
+            }
+            allActivities = allActivities.OrderBy(a => a.StartTime);
+            var nextActivityIndex = allActivities.TakeWhile(a => a.StartTime < newActivity.StartTime).Count();
+            if(nextActivityIndex == null || nextActivityIndex == 0)
+            {
+                return true;
+            }
+            var previousActivityEndTime = allActivities.ElementAt(nextActivityIndex - 1).EndTime;
+            if(previousActivityEndTime > newActivity.StartTime)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void CreateEmployeeActivity(EmployeeActivity activity)
@@ -26,7 +67,7 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 
         public IEnumerable<MainActivity> GetDayActivities(Guid dayId)
         {
-            return _activityRepository.GetDayActivities(dayId);
+            return _activityRepository.GetMainActivities(dayId);
         }
 
         public IEnumerable<EmployeeActivity> GetEmployeeActivities(Guid mainActivityId)

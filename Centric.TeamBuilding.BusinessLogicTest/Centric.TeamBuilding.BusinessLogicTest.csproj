@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DayManagerTests.cs" />
+    <Compile Include="ActivityManagerTests.cs" />
     <Compile Include="UserManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

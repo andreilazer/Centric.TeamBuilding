@@ -2,6 +2,7 @@
 using System.Linq;
 using Centric.TeamBuilding.Entities;
 using Dapper;
+using System;
 
 namespace Centric.TeamBuilding.DataAccess.Repositories
 {
@@ -15,6 +16,17 @@ namespace Centric.TeamBuilding.DataAccess.Repositories
 
                 connection.Open();
                 return connection.Query<User>(sql, new {Email = email}).FirstOrDefault();
+            }
+        }
+
+        public User GetUser(Guid userId)
+        {
+            using (SqlConnection connection = new SqlConnection(Constants.ConnectionString))
+            {
+                var sql = @"SELECT * FROM [dbo].[User] WHERE [Id] = @Id";
+
+                connection.Open();
+                return connection.Query<User>(sql, new { Id = userId }).FirstOrDefault();
             }
         }
 

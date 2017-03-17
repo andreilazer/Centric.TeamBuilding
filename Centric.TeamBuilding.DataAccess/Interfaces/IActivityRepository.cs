@@ -10,7 +10,7 @@ namespace Centric.TeamBuilding.DataAccess.Repositories
         void CreateEmployeeActivity(EmployeeActivity activity);
         void CreateMainActivity(MainActivity activity);
         IEnumerable<User> GetActivityParticipants(Guid activityId);
-        IEnumerable<MainActivity> GetDayActivities(Guid dayId);
+        IEnumerable<MainActivity> GetMainActivities(Guid dayId);
         IEnumerable<EmployeeActivity> GetEmployeeActivities(Guid mainActivityId);
     }
 }

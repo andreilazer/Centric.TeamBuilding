@@ -35,11 +35,11 @@ namespace Centric.TeamBuilding.DataAccess.Repositories
             }
         }
 
-        public IEnumerable<MainActivity> GetDayActivities(Guid dayId)
+        public IEnumerable<MainActivity> GetMainActivities(Guid dayId)
         {
             using (SqlConnection connection = new SqlConnection(Constants.ConnectionString))
             {
-                var sql = @"SELECT * FROM [dbo].[Activity] WHERE DayId = @DayId";
+                var sql = @"SELECT * FROM [dbo].[Activity] WHERE DayId = @DayId AND ParentId IS NULL";
 
                 connection.Open();
                 return connection.Query<MainActivity>(sql, new { DayId = dayId});

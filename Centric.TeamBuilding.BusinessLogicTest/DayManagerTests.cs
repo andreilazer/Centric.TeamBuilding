@@ -24,8 +24,7 @@ namespace Centric.TeamBuilding.BusinessLogicTest
                 Date = DateTime.UtcNow
             };
 
-            var dayRepository = new DayRepository();
-            var dayManager = new DayManager(dayRepository);
+            var dayManager = new DayManager(new DayRepository());
             dayManager.Create(day);
         }
 

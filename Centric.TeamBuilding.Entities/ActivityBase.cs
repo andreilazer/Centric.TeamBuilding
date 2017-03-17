@@ -19,5 +19,17 @@ namespace Centric.TeamBuilding.Entities
         public Guid CreatorId { get; set; }
 
         public Guid DayId { get; set; }
+
+        public ValidationResult Validate()
+        {
+            var result = new ValidationResult() { IsValid = false };
+            if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(Location))
+            {
+                result.Message = "Fill all required fields";
+                return result;
+            }
+            result.IsValid = true;
+            return result;
+        }
     }
 }
