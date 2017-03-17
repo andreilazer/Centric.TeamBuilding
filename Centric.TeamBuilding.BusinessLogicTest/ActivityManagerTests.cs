@@ -22,9 +22,9 @@ namespace Centric.TeamBuilding.BusinessLogicTest
             {
                 var activityRepositoryStub = Substitute.For<IActivityRepository>();
                 var userRepositoryStub = Substitute.For<IUserRepository>();
-                var activityManager = new ActivityManager(activityRepositoryStub);
-                var newActivity = GetDummyNewMainActivity();
-                newActivity.StartTime = newActivity.EndTime.AddHours(1);
+                var activityManager = new ActivityManager(activityRepositoryStub,userRepositoryStub);
+                var end = new DateTime(2017, 01, 01, 14, 30, 00);
+                var newActivity = GetDummyNewMainActivity(end.AddHours(1),end);
 
                 activityManager.CreateMainActivity(newActivity);
                 Assert.IsTrue(false, "Should throw validation error");
@@ -36,7 +36,6 @@ namespace Centric.TeamBuilding.BusinessLogicTest
         }
 
         [TestMethod]
-        public void CreateMainActivity_ShouldThrowValidationException_WhenIntervalCollidesWithExistingActivities()
         [ExpectedException(typeof(ValidationException))]
         public void CreateMainActivity_ShouldThrowValidationException_WhenNewActivityEndTimeAfterNextActivityStartTime()
         {
