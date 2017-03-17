@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Centric.TeamBuilding.DataAccess.Repositories;
 using Centric.TeamBuilding.Entities;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
+using Centric.TeamBuilding.BussinesLogic.Validators;
 
 namespace Centric.TeamBuilding.BussinesLogic.Managers
 {
     public class ActivityManager
     {
-        private IActivityRepository _activityRepository;
-        private IUserRepository _userRepository;
+        private readonly IActivityRepository _activityRepository;
+        private readonly IUserRepository _userRepository;
 
         public ActivityManager(IActivityRepository activityRepository, IUserRepository userRepository)
         {
@@ -20,21 +20,14 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
 
         public void CreateMainActivity(MainActivity activity)
         {
-            var activityValidationResult = activity.Validate();
+            var activityValidator = new ActivityValidator(_activityRepository);
+            var activityValidationResult = activityValidator.ValidateMainActivity(activity);
 
             if (activityValidationResult.IsValid) {
                 var creatorRole = _userRepository.GetUser(activity.CreatorId).Role;
-
                 if (creatorRole != UserRoles.Staff)
                 {
                     throw new UnauthorizedAccessException("Only Staff users can create main activities!");
-                }
-                var allMainActivities = _activityRepository.GetMainActivities(activity.DayId);
-
-                var isValidActivityInterval = IsValidActivityInterval(allMainActivities, activity);
-                if (!isValidActivityInterval)
-                {
-                    throw new ValidationException("Activity interval collides another existing activity!");
                 }
 
                 _activityRepository.CreateMainActivity(activity);
@@ -43,16 +36,6 @@ namespace Centric.TeamBuilding.BussinesLogic.Managers
             {
                 throw new ValidationException(activityValidationResult.Message);
             }
-        }
-
-        private bool IsValidActivityInterval(IEnumerable<ActivityBase> allActivities, ActivityBase newActivity)
-        {
-            if (allActivities.Any(a => a.StartTime <= newActivity.StartTime && a.EndTime >= newActivity.StartTime)
-                || allActivities.Any(a => a.StartTime <= newActivity.EndTime && a.EndTime >= newActivity.EndTime))
-            {
-                return false;
-            }
-            return true;
         }
 
         public void CreateEmployeeActivity(EmployeeActivity activity)
